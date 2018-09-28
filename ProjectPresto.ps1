@@ -17,8 +17,8 @@
 #Requires -Version 5.0
 
 # Startup Runpath and Culture
-    #$RunPath = (Split-Path ((Get-Variable MyInvocation).Value).MyCommand.Path)
-    $RunPath = "H:\PowerShell\ProjectPresto"
+    $RunPath = (Split-Path ((Get-Variable MyInvocation).Value).MyCommand.Path)
+    #$RunPath = "H:\PowerShell\ProjectPresto"
     $LocalUICulture = Get-Culture
 
 # Internationalization
@@ -34,18 +34,6 @@
         # Override if localized datafile is available
         Import-LocalizedData -BindingVariable "MsgTbl" -UICulture $LocalUICulture.Name -FileName ($LocalUICulture.Name + ".psd1") -BaseDirectory $RunPath -ErrorAction SilentlyContinue
     #endregion Internationalization
-
-
-# Load GlobalVariables
-    $GlobalVariables = $RunPath + "\GlobalVariables.ps1"
-    if (Test-Path $GlobalVariables) {
-        Write-Host $MsgTbl.FoundVars -ForegroundColor Green
-    }else{
-        Write-Host $MsgTbl.VarsMissing -ForegroundColor Red
-        exit
-    }
-    . $GlobalVariables
-    Write-Host $MsgTbl.LoadVars -ForegroundColor Green
 
 # Load HTML Code
     $HTMLCode = $RunPath + "\HTMLCode.ps1"
@@ -178,12 +166,14 @@ Add-Type -TypeDefinition @"
 
 
 # Show PowerShell Web GUI
-New-PowershellWebGUI -HTMLRaw $HTML -Title $WindowTitle
+New-PowershellWebGUI -HTMLRaw $HTML -Title $MsgTbl.WindowTitle
+
+
 # SIG # Begin signature block
 # MIIItwYJKoZIhvcNAQcCoIIIqDCCCKQCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUFX4//zyX65xga1evqUTzUTw4
-# kiygggaqMIIGpjCCBI6gAwIBAgITNgAAxy77vOUmuFd2kAAHAADHLjANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUkVktaL5vFbJEpLiHXxM/D8w+
+# ZoagggaqMIIGpjCCBI6gAwIBAgITNgAAxy77vOUmuFd2kAAHAADHLjANBgkqhkiG
 # 9w0BAQUFADBAMRIwEAYKCZImiZPyLGQBGRYCYmUxEzARBgoJkiaJk/IsZAEZFgNE
 # RzMxFTATBgNVBAMTDE1WRy1FV0JMLUFMVjAeFw0xODA4MDEwODE3MThaFw0xOTA4
 # MDEwODE3MThaMIG8MQswCQYDVQQGEwJCRTETMBEGA1UECBMKVmxhYW5kZXJlbjEQ
@@ -223,8 +213,8 @@ New-PowershellWebGUI -HTMLRaw $HTML -Title $WindowTitle
 # AxMMTVZHLUVXQkwtQUxWAhM2AADHLvu85Sa4V3aQAAcAAMcuMAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBQ8s77TAzMfuGaiwc3DiNLcow5LvDANBgkqhkiG9w0BAQEFAASBgEO062EA
-# t/SmvVsVowVzbodjJHqDnrIt2GXIvKs6zoiWklDUD9UXaY+Up0JYstk78dYk9BnX
-# NZj4/Wk3ZFWcbYNvBVCmeJ8sdp/sZEpddbHQrdzc9fvDLSytRQNMJW/qQOS6gF3h
-# DwPYB3dZjShps1uqptAV0ir2TYIFfrOzm9uh
+# BDEWBBTUeW8cu/71o+Ng7zqtO3l3Y/94/jANBgkqhkiG9w0BAQEFAASBgCepHy6Z
+# 7jlTYRu1SK0dc4f0eaBgz3ZE9InZFgSGYiXWKsCFZoXR72sQo9WiQt0YY3fKW5Ru
+# X7rKOS0TIiBeGQl12hK+GSa0AvbVPCMRi/YalT+LYIhUkGpYLLJ6NITDXHgRmKL8
+# xCbdGUoLCY9N4F8QLKbAO+E4p1jxfw2DqR3t
 # SIG # End signature block

@@ -10,5 +10,25 @@ ConvertFrom-StringData @'
     LoadHTML = Het HTML code bestand wordt geloaden...
     WindowTitle = Project Presto GUI .:. Alpha Versie .:. Er wordt nog aan gewerkt
     SwitchThema = U kan nu omschakelen tussen een licht of donker thema.
+    AppTitle = Project Presto
+    Settings = Instellingen
+    LoginWelcome1 = Welkom bij
+    LoginWelcome2 = Project Presto
+    LoginBanner = Deze tool zit nog steeds in Alpha fase
+    LoginCopyright = &copy; 2018 - Cloud Concepts - Jurgen Van de Perre
+    LoginvCenter = vCenter FQDN of IP adres
+    LoginUser = Gebruikersnaam
+    LoginPass = Wachtwoord
+    
+    LoginNotResponding = vCenter Server REST API reageert niet.
+    LoginUnreachable = vCenter Server onbereikbaar.
+    LoginInvalid = Inloggegevens zijn onjuist.
+    
     butSwitch = Thema Omschakelen
+    butNext = Volgende
+    butSignOut = Afmelden
+
+    CloseSessionFailed = Algemene fout: De REST sessie kon niet afgesloten worden.
 '@
+
+

@@ -19,6 +19,10 @@ ConvertFrom-StringData @'
    LoginvCenter = vCenter FQDN or IP address
    LoginUser = Username
    LoginPass = Password
+
+   vCenterEmpty = The vCenter FQDN field is required.
+   UserEmpty = The Username field is required.
+   PassEmpty = The Password field is required.
    
    LoginNotResponding = vCenter Server REST API not responding.
    LoginUnreachable = vCenter Server not reachable.

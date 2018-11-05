@@ -1,8 +1,7 @@
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 # Ignore Self Signed Certificates
-if (-not ([System.Management.Automation.PSTypeName]'ServerCertificateValidationCallback').Type)
-{
-$certCallback = @"
+if (-not ([System.Management.Automation.PSTypeName]'ServerCertificateValidationCallback').Type) {
+  $certCallback = @"
     using System;
     using System.Net;
     using System.Net.Security;
@@ -13,12 +12,12 @@ $certCallback = @"
         {
             if(ServicePointManager.ServerCertificateValidationCallback ==null)
             {
-                ServicePointManager.ServerCertificateValidationCallback += 
+                ServicePointManager.ServerCertificateValidationCallback +=
                     delegate
                     (
-                        Object obj, 
-                        X509Certificate certificate, 
-                        X509Chain chain, 
+                        Object obj,
+                        X509Certificate certificate,
+                        X509Chain chain,
                         SslPolicyErrors errors
                     )
                     {
@@ -28,8 +27,8 @@ $certCallback = @"
         }
     }
 "@
-    Add-Type $certCallback
- }
+  Add-Type $certCallback
+}
 [ServerCertificateValidationCallback]::Ignore()
 
 # HTML Code
@@ -39,7 +38,7 @@ $HTML = @"
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=11">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" id="dark" title="dark" href="https://unpkg.com/@clr/ui/clr-ui.min.css"/>
     <link rel="stylesheet alternate" id="light" title="light" href="https://unpkg.com/@clr/ui/clr-ui-dark.min.css" disabled=true />
     <link rel="stylesheet" href="https://unpkg.com/@clr/icons/clr-icons.min.css" />
@@ -103,7 +102,7 @@ $HTML = @"
             Catch {
                 return "Close Session Failed"
             }
-            
+
             return `$vCenterSessionResponse.value
         }
 
@@ -185,7 +184,7 @@ $HTML = @"
             }
             Catch {
                 return "ConsoleCLI Get Failed"
-            }            
+            }
             `$ConsoleCLI = `$ConsoleCliInfo.value
 
             `$DCUIURL = `$global:VCSAURL + "/access/dcui"
@@ -194,7 +193,7 @@ $HTML = @"
             }
             Catch {
                 return "DCUI Get Failed"
-            }            
+            }
             `$DCUICLI = `$DCUIInfo.value
 
             `$ShellURL = `$global:VCSAURL + "/access/shell"
@@ -203,7 +202,7 @@ $HTML = @"
             }
             Catch {
                 return "Shell Get Failed"
-            }            
+            }
             `$ShellCLI = `$ShellInfo.value.enabled
 
             `$SshURL = `$global:VCSAURL + "/access/ssh"
@@ -212,7 +211,7 @@ $HTML = @"
             }
             Catch {
                 return "SSH Get Failed"
-            }            
+            }
             `$SshCCLI = `$SshInfo.value
 
             #Get Appliance Health State
@@ -222,7 +221,7 @@ $HTML = @"
             }
             Catch {
                 return "Overall Health Get Failed"
-            }            
+            }
             `$OverallHealthStatus = `$OverallHealthInfo.value
             `$CPUHealth = `$global:VCSAURL + "/health/load"
             Try {
@@ -230,7 +229,7 @@ $HTML = @"
             }
             Catch {
                 return "CPU Health Get Failed"
-            }            
+            }
             `$CPUHealthStatus = `$CPUHealthInfo.value
             `$MemHealth = `$global:VCSAURL + "/health/mem"
             Try {
@@ -238,7 +237,7 @@ $HTML = @"
             }
             Catch {
                 return "CPU Health Get Failed"
-            }            
+            }
             `$MemHealthStatus = `$MemHealthInfo.value
             `$DBHealth = `$global:VCSAURL + "/health/database-storage"
             Try {
@@ -246,7 +245,7 @@ $HTML = @"
             }
             Catch {
                 return "CPU Health Get Failed"
-            }            
+            }
             `$DBHealthStatus = `$DBHealthInfo.value
 
 
@@ -262,7 +261,7 @@ $HTML = @"
             # Return all data to the javascript window (# Datacenters, # Clusters, # Hosts, # VMs)
             `$DashboardData = `$totalDCs.ToString() + "/" + `$totalClusters.ToString() + "/" + `$totalHosts.ToString() + "/" + `$totalVMs.ToString() + "/" + `$VCSAType + "/" + `$VCSAVersion + "/" + `$VCSABuild + "/" + `$VCSAInstall + "/" + `$ConsoleCLI + "/" + `$DCUICLI + "/" + `$ShellCLI + "/" + `$SshCCLI + "/" + `$OverallHealthStatus + "/" + `$CPUHealthStatus + "/" + `$MemHealthStatus + "/" + `$DBHealthStatus
             return `$DashboardData
-            
+
         }
     </script>
 
@@ -277,12 +276,12 @@ $HTML = @"
             function throwTopWarning(type, text){
                 switch(type){
                     case "info":
-                        `$('#topinfotext').text(text); 
+                        `$('#topinfotext').text(text);
                         `$('#topinfo').slideDown("slow");
                         break;
 
                     case "warning":
-                        `$('#topwarningtext').text(text); 
+                        `$('#topwarningtext').text(text);
                         `$('#topwarning').slideDown("slow");
                         break;
                 }
@@ -296,7 +295,7 @@ $HTML = @"
             `$("#page_dashboard").show(0, function(){
                 // - Run the powershell to connect to REST api and get data
                    window.external.runPowerShell("Dashboard_Initialize",parseDashboard);
-              });                
+              });
         }
 
 
@@ -316,79 +315,82 @@ $HTML = @"
                     throwTopWarning("warning","****Could not retrieve Datacenters from vCenter****");
                     return false;
                 }
-                if (parseresult != "PowerShell is busy.") {                        
-                    `$('#nDatacenters').text(parseresult);
+                if (parseresult != "PowerShell is busy.") {
+                    // - Fill VCSA information
+                    var dashboardvalues = parseresult.split("/");
+                    `$('#nDatacenters').html(dashboardvalues[0]);
+                    `$('#nClusters').html(dashboardvalues[1]);
+                    `$('#nHosts').html(dashboardvalues[2]);
+                    `$('#nVMs').html(dashboardvalues[3]);
+                    `$('#vcenter_info').html(dashboardvalues[4]);
+                    `$('#vcenter_version').html("$($MsgTbl.Version)&nbsp;" + dashboardvalues[5] + " (" + dashboardvalues[6] +")");
+                    `$('#vcenter_date').html("$($MsgTbl.InstallDate)&nbsp;" + dashboardvalues[7]);
+                    if (dashboardvalues[8] == "True"){
+                        `$('#CLI_icon').html("<clr-icon shape='shield-check'></clr-icon></span>");
+                    }else{
+                        `$('#CLI_icon').html("<clr-icon shape='shield-x'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[9] == "True"){
+                        `$('#DCUI_icon').html("<clr-icon shape='shield-check'></clr-icon></span>");
+                    }else{
+                        `$('#DCUI_icon').html("<clr-icon shape='shield-x'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[10] == "True"){
+                        `$('#Bash_icon').html("<clr-icon shape='shield-check'></clr-icon></span>");
+                    }else{
+                        `$('#Bash_icon').html("<clr-icon shape='shield-x'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[11] == "True"){
+                        `$('#Ssh_icon').html("<clr-icon shape='shield-check'></clr-icon></span>");
+                    }else{
+                        `$('#Ssh_icon').html("<clr-icon shape='shield-x'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[12] == "green"){
+                        `$('#GenHealth_icon').html("<clr-icon shape='success-standard'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[12] == "yellow"){
+                        `$('#GenHealth_icon').html("<clr-icon shape='warning-standard'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[12] == "red"){
+                        `$('#GenHealth_icon').html("<clr-icon shape='times'></clr-icon></span>");
+                    }
+                    `$('#GenHealth_text').html("$($MsgTbl.OverallHealth)");
+                    if (dashboardvalues[13] == "green"){
+                        `$('#CPUHealth_icon').html("<clr-icon shape='success-standard'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[13] == "yellow"){
+                        `$('#CPUHealth_icon').html("<clr-icon shape='warning-standard'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[13] == "red"){
+                        `$('#CPUHealth_icon').html("<clr-icon shape='times'></clr-icon></span>");
+                    }
+                    `$('#CPUHealth_text').html("$($MsgTbl.CPUHealth)");
+                    if (dashboardvalues[14] == "green"){
+                        `$('#MemHealth_icon').html("<clr-icon shape='success-standard'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[14] == "yellow"){
+                        `$('#MemHealth_icon').html("<clr-icon shape='warning-standard'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[14] == "red"){
+                        `$('#MemHealth_icon').html("<clr-icon shape='times'></clr-icon></span>");
+                    }
+                    `$('#MemHealth_text').html("$($MsgTbl.MemHealth)");
+                    if (dashboardvalues[15] == "green"){
+                        `$('#DBHealth_icon').html("<clr-icon shape='success-standard'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[15] == "yellow"){
+                        `$('#DBmHealth_icon').html("<clr-icon shape='warning-standard'></clr-icon></span>");
+                    }
+                    if (dashboardvalues[15] == "red"){
+                        `$('#DBHealth_icon').html("<clr-icon shape='times'></clr-icon></span>");
+                    }
+                    `$('#DBHealth_text').html("$($MsgTbl.DBHealth)");
+                    `$('#GeneralProgressBar').hide();
+                    `$('#VCSAProgressBar').hide();
                 }
-                
-                // - Fill VCSA information
-                var dashboardvalues = parseresult.split("/");
-                `$('#vcenter_info').html(dashboardvalues[4]);
-                `$('#vcenter_version').html("$($MsgTbl.Version)&nbsp;" + dashboardvalues[5] + " (" + dashboardvalues[6] +")");     
-                `$('#vcenter_date').html("$($MsgTbl.InstallDate)&nbsp;" + dashboardvalues[7]);    
-                if (dashboardvalues[8] == "True"){
-                    `$('#CLI_icon').html("<clr-icon shape='shield-check'></clr-icon></span>");
-                }else{
-                    `$('#CLI_icon').html("<clr-icon shape='shield-x'></clr-icon></span>");
-                }
-                if (dashboardvalues[9] == "True"){
-                    `$('#DCUI_icon').html("<clr-icon shape='shield-check'></clr-icon></span>");
-                }else{
-                    `$('#DCUI_icon').html("<clr-icon shape='shield-x'></clr-icon></span>");
-                }
-                if (dashboardvalues[10] == "True"){
-                    `$('#Bash_icon').html("<clr-icon shape='shield-check'></clr-icon></span>");
-                }else{
-                    `$('#Bash_icon').html("<clr-icon shape='shield-x'></clr-icon></span>");
-                }
-                if (dashboardvalues[11] == "True"){
-                    `$('#Ssh_icon').html("<clr-icon shape='shield-check'></clr-icon></span>");
-                }else{
-                    `$('#Ssh_icon').html("<clr-icon shape='shield-x'></clr-icon></span>");
-                }
-                if (dashboardvalues[12] == "green"){
-                    `$('#GenHealth_icon').html("<clr-icon shape='success-standard'></clr-icon></span>");
-                }
-                if (dashboardvalues[12] == "yellow"){
-                    `$('#GenHealth_icon').html("<clr-icon shape='warning-standard'></clr-icon></span>");
-                }
-                if (dashboardvalues[12] == "red"){
-                    `$('#GenHealth_icon').html("<clr-icon shape='times'></clr-icon></span>");
-                }
-                `$('#GenHealth_text').html("$($MsgTbl.OverallHealth)");
-                if (dashboardvalues[13] == "green"){
-                    `$('#CPUHealth_icon').html("<clr-icon shape='success-standard'></clr-icon></span>");
-                }
-                if (dashboardvalues[13] == "yellow"){
-                    `$('#CPUHealth_icon').html("<clr-icon shape='warning-standard'></clr-icon></span>");
-                }
-                if (dashboardvalues[13] == "red"){
-                    `$('#CPUHealth_icon').html("<clr-icon shape='times'></clr-icon></span>");
-                }
-                `$('#CPUHealth_text').html("$($MsgTbl.CPUHealth)");
-                if (dashboardvalues[14] == "green"){
-                    `$('#MemHealth_icon').html("<clr-icon shape='success-standard'></clr-icon></span>");
-                }
-                if (dashboardvalues[14] == "yellow"){
-                    `$('#MemHealth_icon').html("<clr-icon shape='warning-standard'></clr-icon></span>");
-                }
-                if (dashboardvalues[14] == "red"){
-                    `$('#MemHealth_icon').html("<clr-icon shape='times'></clr-icon></span>");
-                }
-                `$('#MemHealth_text').html("$($MsgTbl.MemHealth)");
-                if (dashboardvalues[15] == "green"){
-                    `$('#DBHealth_icon').html("<clr-icon shape='success-standard'></clr-icon></span>");
-                }
-                if (dashboardvalues[15] == "yellow"){
-                    `$('#DBmHealth_icon').html("<clr-icon shape='warning-standard'></clr-icon></span>");
-                }
-                if (dashboardvalues[15] == "red"){
-                    `$('#DBHealth_icon').html("<clr-icon shape='times'></clr-icon></span>");
-                }
-                `$('#DBHealth_text').html("$($MsgTbl.DBHealth)");
-                `$('#GeneralProgressBar').hide();
-                `$('#VCSAProgressBar').hide();
+
             }
-            
+
         // -----------------------------------------------------------------------------------------------
         //
         // - Return function after login button is pressed
@@ -413,11 +415,11 @@ $HTML = @"
                 `$('#loginerror').show();
                 return false;
               }
-      
+
               // Hide Login Page
               `$('#loginerror').hide();
               `$('#loginpage').hide();
-      
+
               // Show Main Page
               `$("#mainpage").show(0, function(){
                   // When loaded, show the dashoard page
@@ -428,12 +430,12 @@ $HTML = @"
 
 
 
-        // Startup Routine        
+        // Startup Routine
         `$(document).ready(function () {
             // - Load Powershell script into external PowerShell window
             // ----------------------------------------------------------------------------------------------------
                var script = `$('#PowerShellFunctions').html();
-               
+
                // - Return to javascript function after preloading PowerShell Functions - Show Login Form
 
                window.external.runPowerShell(script, returnStartup);
@@ -441,7 +443,7 @@ $HTML = @"
             // ----------------------------------------------------------------------------------------------------
             // - Prevent the use of the F5 key to avoid blank page
             // ----------------------------------------------------------------------------------------------------
-            `$(function() 
+            `$(function()
             {
                 `$(document).keydown(function (e) {
                     return (e.which || e.keyCode) != 116;
@@ -710,7 +712,7 @@ $HTML = @"
                         </div>
                     </span>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 

@@ -12,10 +12,10 @@ ConvertFrom-StringData @'
    SwitchThema = You can now switch theme between light and dark.
    AppTitle = Project Presto
    Settings = Settings
-   LoginWelcome1 = Welcome to
+   LoginWelcome1 = VMworld Europe Hackathon 2018
    LoginWelcome2 = Project Presto
-   LoginBanner = This tool is still in Alpha phase
-   LoginCopyright = &copy; 2018 - Cloud Concepts - Jurgen Van de Perre
+   LoginBanner = This tool might or might not work
+   LoginCopyright = Jurgen Van de Perre & Team
    LoginvCenter = vCenter FQDN or IP address
    LoginUser = Username
    LoginPass = Password
@@ -30,8 +30,17 @@ ConvertFrom-StringData @'
 
    butSwitch = Switch Theme
    butNext = Next
-   butSignOut = Sign Out
+   butSignOut = Quit
 
-   CloseSessionFailed = Error: The REST session could not be closed.
+   Retrieving = Retrieving data...
+   VCSAInfo = VCSA Information
+   ApplianceAccess = Appliance Access:
+   Version = Version
+   InstallDate = Installed on
+   ApplianceHealth = Appliance Health Status:
+   OverallHealth = Overall Health
+   CPUHealth = CPU Status
+   MemHealth = Memory Status
+   DBHealth = Database Storage Health
 '@
 

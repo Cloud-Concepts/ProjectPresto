@@ -30,9 +30,18 @@ ConvertFrom-StringData @'
     
     butSwitch = Thema Omschakelen
     butNext = Volgende
-    butSignOut = Afmelden
+    butSignOut = Afsluiten
 
-    CloseSessionFailed = Algemene fout: De REST sessie kon niet afgesloten worden.
+    Retrieving = Ophalen data...
+    VCSAInfo = VCSA Informatie
+    ApplianceAccess = Toegang tot de appliance:
+    Version = Versie
+    InstallDate = Geinstalleerd op
+    ApplianceHealth = Status van de appliance:
+    OverallHealth = Algemene Status
+    CPUHealth = Status Processor
+    MemHealth = Status Geheugen
+    DBHealth = Status Database Opslag
 '@
 
 
